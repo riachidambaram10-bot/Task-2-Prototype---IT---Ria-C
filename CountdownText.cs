@@ -1,16 +1,30 @@
 using UnityEngine;
+using TMPro;
+using System.Collections;
 
-public class CountdownText : MonoBehaviour
+public class Countdown : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public TMP_Text countdownText;
+
     void Start()
     {
-        
+        StartCoroutine(StartCountdown());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator StartCountdown()
     {
-        
+        countdownText.text = "3";
+        yield return new WaitForSeconds(1f);
+
+        countdownText.text = "2";
+        yield return new WaitForSeconds(1f);
+
+        countdownText.text = "1";
+        yield return new WaitForSeconds(1f);
+
+        countdownText.text = "GO!";
+        yield return new WaitForSeconds(1f);
+
+        countdownText.gameObject.SetActive(false);
     }
 }
