@@ -16,6 +16,9 @@ public class RaceManager : MonoBehaviour
     public TMP_Text lapText;
     public TMP_Text finishText;
 
+    [Header("Race Timer")]
+    public RaceTimer raceTimer;
+
     private KartController playerKart;
     private Rigidbody kartRigidbody;
 
@@ -25,8 +28,8 @@ public class RaceManager : MonoBehaviour
         nextCheckpoint = 1;
         raceFinished = false;
 
-        // Find the player's kart
-        playerKart = FindFirstObjectByType<KartController>();
+        // Finds the player's kart
+        playerKart = FindAnyObjectByType<KartController>();
 
         if (playerKart != null)
         {
@@ -35,7 +38,7 @@ public class RaceManager : MonoBehaviour
 
         UpdateLapUI();
 
-        // Hide finish message at the beginning
+        // Hides finish message at the beginning
         if (finishText != null)
         {
             finishText.gameObject.SetActive(false);
@@ -44,7 +47,7 @@ public class RaceManager : MonoBehaviour
 
     public void CheckpointPassed(int checkpointNumber)
     {
-        // Dosen't accept checkpoints after the race is finished
+        // Donsent accept checkpoints after the race is finished
         if (raceFinished)
             return;
 
@@ -66,7 +69,7 @@ public class RaceManager : MonoBehaviour
         // Moves to the next checkpoint
         nextCheckpoint++;
 
-        // Makes sure Player has passed all four checkpoints
+        // Means Player has passed all four checkpoints
         if (nextCheckpoint > totalCheckpoints)
         {
             CompleteLap();
@@ -107,7 +110,13 @@ public class RaceManager : MonoBehaviour
     {
         raceFinished = true;
 
-        Debug.Log("RACE FINISHED!");
+        Debug.Log("RACE COMPLETE!");
+
+        // STOPS THE TIMER
+        if (raceTimer != null)
+        {
+            raceTimer.StopTimer();
+        }
 
         // STOPS THE KART
         if (kartRigidbody != null)
@@ -122,17 +131,17 @@ public class RaceManager : MonoBehaviour
             playerKart.enabled = false;
         }
 
-        // Changes lap counter to FINISH
+        // CHANGES LAP TEXT
         if (lapText != null)
         {
-            lapText.text = "FINISH!";
+            lapText.text = "RACE COMPLETE!";
         }
 
-        // Shows finish message
+        // SHOWS FINISH MESSAGE
         if (finishText != null)
         {
             finishText.gameObject.SetActive(true);
-            finishText.text = "RACE FINISHED!";
+            finishText.text = "RACE COMPLETE!";
         }
     }
 }
