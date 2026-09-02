@@ -83,6 +83,7 @@ public class KartController : MonoBehaviour
             return;
 
         MoveKart();
+        SidewaysMovement(); 
         ApplyFriction();
         SteerKart();
         LimitSpeed();
@@ -171,5 +172,17 @@ public class KartController : MonoBehaviour
                 rb.linearVelocity.normalized *
                 maxSpeed;
         }
+    }
+    void SidewaysMovement()
+    {
+        if (steeringInput == 0f)
+            return;
+
+        Vector3 sidewaysForce =
+            transform.right *
+            steeringInput *
+            acceleration;
+
+        rb.AddForce(sidewaysForce, ForceMode.Acceleration);
     }
 }
